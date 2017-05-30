@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:viewModels="clr-namespace:SpiffyGiphy.ViewModels;assembly=SpiffyGiphy"
+             Title="{Binding Title}"
+             x:Class="SpiffyGiphy.Views.SearchPage">
+    
+    <ContentPage.BindingContext>
+        <viewModels:SearchViewModel />
+    </ContentPage.BindingContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="HeaderGrid">
+            <StackLayout>
+                <Entry x:Name="SearchBox"
+                       Text="{Binding SearchTerms, Mode=TwoWay}"
+                       Margin="2" />
+
+                <Button x:Name="SearchGifsButton"
+                        Text="Search"
+                        Margin="2"
+                        Command="{Binding SearchGifsCommand}" />
+
+                <!--<Button x:Name="RandomGifButton"
+                        Text="Random"
+                        Margin="10"
+                        Command="{Binding GetRandomCommand}" />-->
+
+                <Button x:Name="TrendingGifsButton"
+                        Text="Trending"
+                        Margin="2"
+                        Command="{Binding GetTrendingCommand}" />
+            </StackLayout>
+        </Grid>
+
+        <telerikDataControls:RadListView Grid.Row="1"
+                                         ItemTapped="RadListView_OnItemTapped"
+                                         SelectionMode="None"
+                                         ItemsSource="{Binding SearchResult.Data}">
+            <telerikDataControls:RadListView.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="Android">16</On>
+                    <On Platform="iOS">3</On>
+                    <On Platform="Windows">16</On>
+                </OnPlatform>
+            </telerikDataControls:RadListView.Margin>
+            <telerikDataControls:RadListView.ItemTemplate>
+                <DataTemplate>
+                    <telerikListView:ListViewTemplateCell>
+                        <telerikListView:ListViewTemplateCell.View>
+                            <Grid HeightRequest="200">
+                                <Grid Margin="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Image Source="{Binding Images.FixedWidth.Url}"
+                                           Aspect="AspectFill"
+                                           Grid.Row="0"
+                                           Grid.RowSpan="2" />
+
+                                    <!--WidthRequest="{Binding Images.FixedWidthSmallStill.Width}"
+                                    HeightRequest="{Binding Images.FixedWidthSmallStill.Height}"-->
+
+                                    <BoxView Grid.Row="1"
+                                             BackgroundColor="#EAEAEC" />
+                                    
+                                    <Grid Grid.Row="1"
+                                          Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        
+                                        <Label Grid.Row="0"
+                                               Text="{Binding Slug}"
+                                               Opacity="1">
+                                            <Label.FontSize>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="Android">16</On>
+                                                    <On Platform="iOS">15</On>
+                                                    <On Platform="Windows">15</On>
+                                                </OnPlatform>
+                                            </Label.FontSize>
+                                            <Label.FontFamily>
+                                                <OnPlatform x:TypeArguments="x:String">
+                                                    <On Platform="Windows">Segoe UI Semibold</On>
+                                                </OnPlatform>
+                                            </Label.FontFamily>
+                                        </Label>
+                                        
+                                        <Label Grid.Row="1"
+                                               Text="{Binding Caption}"
+                                               Opacity="0.5">
+                                            <Label.FontSize>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="Android">14</On>
+                                                    <On Platform="iOS">14</On>
+                                                    <On Platform="Windows">15</On>
+                                                </OnPlatform>
+                                            </Label.FontSize>
+                                            <Label.FontFamily>
+                                                <OnPlatform x:TypeArguments="x:String">
+                                                    <On Platform="Windows">Segoe UI Semibold</On>
+                                                </OnPlatform>
+                                            </Label.FontFamily>
+                                        </Label>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </telerikListView:ListViewTemplateCell.View>
+                    </telerikListView:ListViewTemplateCell>
+                </DataTemplate>
+            </telerikDataControls:RadListView.ItemTemplate>
+            <telerikDataControls:RadListView.LayoutDefinition>
+                <telerikListView:ListViewGridLayout SpanCount="2"
+                                                    ItemLength="220">
+                    <telerikListView:ListViewGridLayout.VerticalItemSpacing>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android">4</On>
+                            <On Platform="iOS">3</On>
+                            <On Platform="Windows">4</On>
+                        </OnPlatform>
+                    </telerikListView:ListViewGridLayout.VerticalItemSpacing>
+                    <telerikListView:ListViewGridLayout.HorizontalItemSpacing>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android">4</On>
+                            <On Platform="iOS">3</On>
+                            <On Platform="Windows">4</On>
+                        </OnPlatform>
+                    </telerikListView:ListViewGridLayout.HorizontalItemSpacing>
+                </telerikListView:ListViewGridLayout>
+            </telerikDataControls:RadListView.LayoutDefinition>
+        </telerikDataControls:RadListView>
+    </Grid>
+</ContentPage>
